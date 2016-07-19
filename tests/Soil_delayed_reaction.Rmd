@@ -5,6 +5,19 @@ date: "19. Juli 2016"
 output: html_document
 ---
 
+# Purpose
+For various reasons it can be assumed that soil microbial communities
+do not immediately react to changes in the plant communities.
+However, most models do not incorporate this delay in their
+simulations. 
+In this document I wanted to test if a delay in the adaption
+of soil biota influences the dynamics and outcomes of 
+competition.
+Therefore I simulated an easy hypthetic scenario contaning
+almost similar species and only negative soil feedbacks.
+
+
+
 # Setup
 We have two species with almost identical propoerties.
 Species A is the native species, species B the invader.
@@ -59,7 +72,7 @@ pars <- list("gLC" = c(0.25, 0.25),
 pars <- createPar(yini, pars)
 
 # Model simulation
-out <- psfmod(pars = pars, days = 5000)
+out <- psfmod(pars = pars, days = 100000)
 plot(out)
 
 ```
@@ -89,14 +102,42 @@ pars <- list("gLC" = c(0.25, 0.25),
           "alpha_b" = 0,
           "beta_a" = 0,
           "beta_b" = -0.2, # 
-          "sccr" = c(1,0.0001)   ## Soil reacts immediately
+          "sccr" = c(1,0.0001)   ## Soil reacts gradually. Value is by intention chosen to be extreme.
 )
 
 pars <- createPar(yini, pars)
 
 # Model simulation
-out <- psfmod(pars = pars, days = 5000)
+out <- psfmod(pars = pars, days = 100000)
 plot(out)
 
 ```
+
+
+# Discussion of results
+Even though the final result is not changed by the delayed reaction of the soil,
+it takes much longer (and involves greater variation) until the equilibrium is 
+found.
+However, in real systems, which include some sort of stochasticity, these dynamics could
+change the outcome of the competition if for example one species goes extinct in a phase of
+very low density.
+Further these results are more of theoretical nature. It can hardly be imagined that outer conditions
+stay constant during the timescales simulated here.
+Let me explain this with a simple example. 
+If the invasion of species B is succesfull because it escapes its enemies (enemy release hypothesis)
+it is easy to imagine why there is a time lag between the arrival of the species and the 
+negative soil feedbacks that it has on it self. The soil must adapt or the enemy must follow
+for the negative feedbacks to take effect.
+However, once the soil is adapted, the adaptation of the soil in the next population peak of species 
+B should be much faster, reducing the competitive strength of species B.
+
+Also the different effects that form a negative soil-feedback might not react in the 
+same time scales.
+
+
+
+
+
+
+
 
