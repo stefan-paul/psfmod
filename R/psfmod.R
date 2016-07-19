@@ -70,11 +70,13 @@ feedbackModel <- function (t, y, mu) {
   alpha_L <- mu[27:28]
   alpha <- mu[29:30] # see Bever 2003
   beta <- mu[31:32] # see Bever 2003
-  sccr <- mu[33:35] # soil community change rate for decomposers and competitors
+  sccr <- mu[33:34] # soil community change rate for decomposers and competitors
   qmax <- QN # plant tissue N content which has maximum decomposition rate
+  hfa <- mu[35]
+
   gL <- gN <- numeric(2)
 
-  hfa <- mu[36]
+
 
   # Extract state variables from state variable vector
   B <- y[1:2] # Biomass: Carex and Phalaris
