@@ -1,0 +1,17 @@
+Package: psfmod
+Type: Package
+Title: Incorporating plant soil feedbacks in a two species competition model
+Version: 0.1
+Date: 2016-07-04
+Author: Stefan Paul
+Maintainer: Stefan Paul <stefan_paul_1@web.de>
+Description: Two species  resource competition model with the possibility to include litter and microbial feedbacks.
+License: LGPL-3.0
+LazyData: TRUE
+Imports: deSolve
+RoxygenNote: 5.0.1
+Suggests: R.rsp,
+    knitr,
+    rmarkdown
+VignetteBuilder: R.rsp,
+    knitr
