@@ -1,0 +1,151 @@
+---
+title: "Global sensitivity analysis"
+author: "Stefan Paul"
+date: "7. Juli 2016"
+output: html_document
+---
+
+# Setup
+```{r}
+library(psfmod)
+library(sensitivity)
+```
+
+
+# Parameter values
+```{r}
+# Initial values
+S <- 10 # Nutrient availability in absence of plants
+L0 <- 86 # Light availability #TODO
+
+#yini <- c(100, 10, S, 100, 10, L0,1,1,1)
+
+# yini is composed of:
+# Biomass A
+# Biomass B
+# S (see above)
+# Litter mass A
+# Litter mass B
+# L0 (see above)
+# S_a
+# dc_a, dc_b
+
+yini <- list("BA" = 100, "BB" = 100,"S" =  S,"DA" =  10, "DB" = 10,"L0"=  L0,
+             "Sa"= 0.5,"Dca"= 1,"Dcb" = 1)
+
+
+
+# Parameter with TODO don't have fitted values yet.
+# For parameter with two values:
+# First others, second F. paniculata
+
+# Parameters
+pars <- list("gLC" = c(0.028, 0.018),  # Maximum growth rate under light limitation #DONE
+             "kLC" = c(50, 20),  # TODO    # Light availability under which 1/2 gLC is reached
+             "gNC" = c(0.022, 0.016), # Maximum growth rate under nutrient limitation #DONE
+             "kNC" = c(10, 5), # TODO # N availability under which 1/2 gNC is reached
+             "mC" = c(0.001, 0.0008), # TODO # per capita mortality rate
+             "a" = 0.05, # TODO # turnover rate of nutrient supply. Can later be determined
+             # because it determiens the biomass in equilibrium (see Eppinga 2011 Appendix)
+             "S" = S, #DONE
+             "qNC" = c(18, 15), #  DONE # N content of tissue
+             "rho" = 1200, # DONE # soil bulk density
+             "l_Root" = 1, #DONE # rooting depyth
+             "QNC" = c(18, 15), #  DONE
+             "alphaNC" = c(0.7, 0.7), #DONE # Nutrient litter feedback
+             "dC" = c(0.015, 0.008), #DONE # Litter decomposition rate
+             "cRate" = 10, #DONE
+             "L0" = L0, #TODO
+             "gamma_LC" = c(0.03, 0.02), #TODO # light interception coefficient
+             "alpha_LC" = c(0.1, 0.1), #TODO # light litter feedback coefficient
+             "alpha_a" = 0, #TODO?
+             "alpha_b" = 0, #TODO?
+             "beta_a" = -0.02, # partially DONE
+             "beta_b" = 0, #DONE
+             "sccr" = c(1,1) #DONE
+)
+
+
+refpars <- createPar(yini, pars)
+```
+
+
+# Selecting parameters
+Make a selection of parameters.
+I will use starting values, mortality rates, max growth rates, saturation coefficients,
+and feedback parameters.
+
+Ranges of parameters:
+BA 50 - 250
+BB 10 - 50
+S 5-15
+L0 60 - 100
+m 0.0005 - 0.01; 0.001 - 0.02
+gLC 0.02 - 0.04; 0.01 - 0.03   
+gNC  0.015 - 0.03; 0.01 - 0.025       
+kNC   5 - 15; 5 - 15    
+kLC   40 - 60, 10 - 30    
+alpha -0.03, +0.03
+beta  -0.03, +0.03
+
+
+```{r}
+# # Indices of parameters
+ parSel <- c(1, 2, 3, 6, 10:19, 39:42)
+
+lower <- c(50,  10,  5,  60,   0.02, 0.01,  5,  5,  0.015,  0.01,  40,  10, 0.0005, 0.001,  -0.03, -0.03, -0.03, -0.03)
+upper <- c(250, 50,  15, 100,  0.04, 0.03,  15, 15, 0.03,  0.025,   60,  30,   0.01,  0.02, 0.03, 0.03, 0.3,0.3)
+# 
+# parSel <- c(1, 2, 3, 6, 10:19)
+# 
+# lower <- c(50,  10,  5,  60,   0.02, 0.01,  5,  5,  0.015,  0.01,  40,  10, 0.0005, 0.001)
+# upper <- c(250, 50,  15, 100,  0.04, 0.03,  15, 15, 0.03,  0.025,   60,  30,   0.01,  0.02)
+
+```
+
+
+Define a function to run the model.
+```{r}
+
+morFun <- function(pars){
+  out <- numeric(nrow(pars))
+
+  for(i in 1:nrow(pars)){
+  par <- unlist(refpars)
+  par[parSel] <- pars[i,]
+  
+  par <- list(par[1:9],par[10:43])
+  try(tmp <- psfmod(pars = par, days = 20000), silent = F)
+  try(out[i] <- tmp[20000,3]/(tmp[20000,2]+tmp[20000,3]), silent = F)
+  #cat("\r", i, "out of", nrow(pars),"\r")
+  #flush.console()
+  }
+  out[which(is.na(out))] <- mean(out, na.rm = T)
+  return(out)
+}
+
+
+
+name <- names(unlist(refpars))[parSel]
+
+```
+
+
+
+```{r, message=FALSE}
+morrisOut <- morris(model = morFun, factors = name, r = 50,
+                     design = list(type = "oat", levels = 10,grid.jump = 5),
+                     binf = lower, bsup = upper)
+```
+
+
+```{r}
+morrisOut
+plot(morrisOut)
+```
+
+
+
+
+
+

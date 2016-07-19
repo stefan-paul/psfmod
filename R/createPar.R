@@ -79,7 +79,8 @@ createPar <- function(init = NULL, pars = NULL){
             "alpha_b" = 0,
             "beta_a" = 0,
             "beta_b" = 0,
-            "sccr" = c(1,1)
+            "sccr" = c(1,1),
+            "hfa" = 0
   )
 
 
