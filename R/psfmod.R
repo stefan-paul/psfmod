@@ -93,9 +93,11 @@ feedbackModel <- function (t, y, mu) {
   gN[2] <- max(0,(gNinit[2] + alpha[2]*S_a + beta[2]*(1-S_a)))
 
 
-  # Check for Hme Field Advantage
+  # Check for Home Field Advantage
   if(hfa == 0) dc_dot <- - (dc- ((qN[1]/qmax[1])*(D[1]/(sum(D))) + (qN[2]/qmax[2])*(D[2]/(sum(D)))))*sccr[1]
-  else dc_dot <- c(- (dc[1]- (B[1]/sum(B)))*sccr[3], - (dc[2]- (B[2]/sum(B)))*sccr[1])
+  else dc_dot <- c(- (dc[1]- (B[1]/sum(B)))*sccr[1], - (dc[2]- (B[2]/sum(B)))*sccr[1]) # TODO this is not
+   # correct. It should be dependent on Sa. Also the effect needs to be smaller.
+   # E.g. Ayres et al. (2009) found mean differences of 8%.
 
   Growth <- pmin(gL * L /(kL + L), gN * N / (kN + N)) * B
   B_dot <-  Growth - m * B
