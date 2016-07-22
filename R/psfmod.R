@@ -98,7 +98,7 @@ feedbackModel <- function (t, y, mu) {
   #else dc_dot <- c(- (dc[1]- (B[1]/sum(B)))*sccr[1], - (dc[2]- (B[2]/sum(B)))*sccr[1]) # TODO this is not
    # correct. It should be dependent on Sa. Also the effect needs to be smaller.
    # E.g. Ayres et al. (2009) found mean differences of 8%. But values up to 35% have been reported (see Austin et al. 2014).
-  else dc_dot <- c(1 + (S_a*0.1) - dc[1], 1+((1-S_a)*0.1) - dc[2] ) # Maybe include parameter for strength
+  else dc_dot <- c(1 + (S_a*hfa) - dc[1], 1+((1-S_a)*hfa) - dc[2] )
 
 
   Growth <- pmin(gL * L /(kL + L), gN * N / (kN + N)) * B

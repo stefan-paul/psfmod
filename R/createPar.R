@@ -42,7 +42,7 @@
 ##'  in the conditions. The first value represents the decomposers, the second the soil competitors. A value of 1 means
 ##'  immediate reaction, whereas values < 1 indicate delayed reaction.}
 ##'  \item{"hfa"}{Determines whether the efiiciency of the soil composers is based on litter quality (value 0) or
-##'  "home field advantage" (value 1)}
+##'  "home field advantage". All values != 0 determine the strength of the home field advantage.}
 ##'   }
 ##'
 ##' @export

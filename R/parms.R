@@ -25,12 +25,13 @@ pars <- c("gLC" = 0.25, 0.25,
           "alpha_b" = -0.2,
           "beta_a" = 0,
           "beta_b" = 0,
-          "sccr" = 1
+          "sccr" = 1, 1,
+          "hfa" = 0
 )
 
 indices <- list("gLC" = 1:2, "kLC" = 3:4, "gNC" = 5:6, "kNC" = 7:8,
                "mC" = 9:10, "a" = 11, "S" = 12, "qNC" = 13:14, "rho" = 15,
                "l_Root" = 16, "QNC" = 17:18, "alphaNC" = 19:20, "dC" = 21:22,
                "cRate" = 23, "L0" = 24, "gamma_LC" = 25:26, "alpha_LC" = 27:28,
-               "v" = 29, "alpha_a" = 30, "alpha_b" = 31, "beta_a" = 32,
-               "beta_b" = 33, "sccr" = 34)
+               "alpha_a" = 29, "alpha_b" = 30, "beta_a" = 31,
+               "beta_b" = 32, "sccr" = 33:34, "hfa" = 35)
