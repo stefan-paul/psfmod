@@ -1,7 +1,7 @@
 ##' Function that mixes parameter with defaults
 ##'
-##' @param init named list with initial values
-##' @param pars named list with parameter values
+##' @param init named list with initial values; alternatively all initial values can be passed in a vector (in the right order!).
+##' @param pars named list with parameter values; alternatively all parameters can be passed in a vector (in the right order!).
 ##' @return Complete set of parameters that can be used in \code{\link{psfmod}}
 ##' @details The init list can have the following elements: \cr
 ##'  \itemize{
@@ -53,6 +53,12 @@ createPar <- function(init = NULL, pars = NULL){
                 "Sa" = 0.5, "Dca" = 1, "Dcb" = 1)
 
   if(is.null(init)) init <- yini
+  if(is.numeric(init)){
+    if(length(init) != length(yini)) stop("Length of 'init' does not match number of inital values")
+    for(i in 1:length(init)) yini[i] <- init[i]
+    init <- yini
+  }
+
   y <- modifyList(yini, init)
 
   S <- y$S
@@ -85,6 +91,16 @@ createPar <- function(init = NULL, pars = NULL){
 
 
    if(is.null(pars)) pars <- defaults
+   if(is.numeric(pars)){
+
+     if(length(pars) != length(unlist(defaults))) stop("Length of 'pars' does not match
+                                               number of parameters")
+     for(i in 1:length(defaults)){
+       for(k in 1:length(defaults[[i]])) defaults[[i]][k] <- pars[i]
+
+     }
+       pars <- defaults
+   }
 
     parNew <- modifyList(defaults, pars)
 
