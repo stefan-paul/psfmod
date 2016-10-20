@@ -112,16 +112,16 @@ createPar <- function(init = NULL, pars = NULL){
 
     pars <- list(yini = unlist(y), par = unlist(parNew))
     # gNinit
-    if((pars$par[30] + pars$par[32]) < (- pars$par[1])) warning("Feedback parameter could lead to negative growth rates, gN. Will be corrected to 0.")
-    else if(pars$par[30] < (- pars$par[1]) | pars$par[32] < (- pars$par[1])  ) warning("Feedback parameter could lead to negative growth rates, gN. Will be corrected to 0.")
-    else if((pars$par[31] + pars$par[33]) < (-pars$par[2])) warning("Feedback parameter could lead to negative growth rates, gN. Will be corrected to 0.")
-    else if(pars$par[31] < -(pars$par[2]) | pars$par[33] < -(pars$par[2])  ) warning("Feedback parameter could lead to negative growth rates, gN. Will be corrected to 0.")
+    if((pars$par[29] + pars$par[31]) < (- pars$par[1])) warning("Feedback parameter could lead to negative growth rates, gN. Will be corrected to 0.")
+    else if(pars$par[29] < (- pars$par[1]) | pars$par[31] < (- pars$par[1])  ) warning("Feedback parameter could lead to negative growth rates, gN. Will be corrected to 0.")
+    else if((pars$par[30] + pars$par[32]) < (-pars$par[2])) warning("Feedback parameter could lead to negative growth rates, gN. Will be corrected to 0.")
+    else if(pars$par[32] < -(pars$par[2]) | pars$par[30] < -(pars$par[2])  ) warning("Feedback parameter could lead to negative growth rates, gN. Will be corrected to 0.")
 
     # gLinit
-    if((pars$par[30] + pars$par[32]) < (-pars$par[5])) warning("Feedback parameter could lead to negative growth rates, gL. Will be corrected to 0.")
-    else if(pars$par[30] < (-pars$par[5]) | pars$par[32] < (-pars$par[5])  ) warning("Feedback parameter could lead to negative growth rates, gL. Will be corrected to 0.")
-    else if((pars$par[31] + pars$par[33]) < (-pars$par[2])) warning("Feedback parameter could lead to negative growth rates, gL. Will be corrected to 0.")
-    else if(pars$par[31] < (-pars$par[6]) | pars$par[33] < (-pars$par[6] ) ) warning("Feedback parameter could lead to negative growth rates, gL. Will be corrected to 0.")
+    if((pars$par[29] + pars$par[31]) < (-pars$par[5])) warning("Feedback parameter could lead to negative growth rates, gL. Will be corrected to 0.")
+    else if(pars$par[29] < (-pars$par[5]) | pars$par[31] < (-pars$par[5])  ) warning("Feedback parameter could lead to negative growth rates, gL. Will be corrected to 0.")
+    else if((pars$par[30] + pars$par[32]) < (-pars$par[6])) warning("Feedback parameter could lead to negative growth rates, gL. Will be corrected to 0.")
+    else if(pars$par[32] < (-pars$par[6]) | pars$par[30] < (-pars$par[6] ) ) warning("Feedback parameter could lead to negative growth rates, gL. Will be corrected to 0.")
 
    class(pars) <- "psfpars"
 
