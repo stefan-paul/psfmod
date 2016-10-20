@@ -29,16 +29,19 @@ psfmod <- function(pars, days, newVal = NULL, out = NULL){
   y <- pars[[1]]
   pars <- pars[[2]]
 
-  # Prevents negative values
-  eventfun <- function(t, y, parms){
-    with(as.list(y), {
-      y[y < 0] <- 0
-      return(y)
-    })
-  }
+#   # Prevents negative values
+#   eventfun <- function(t, y, parms){
+#       y[y < 0] <- 0
+#     return(y)
+#   }
+# #
+#
+#   res <- deSolve::ode(y = y, func = feedbackModel,
+#            times = times, parms = pars, events = list(func = eventfun, time = times))
 
   res <- deSolve::ode(y = y, func = feedbackModel,
-           times = times, parms = pars, events = list(func = eventfun, time = times))
+          times = times, parms = pars)
+
 
   if(restart) {
     res <- rbind(out, res)

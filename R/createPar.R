@@ -95,8 +95,12 @@ createPar <- function(init = NULL, pars = NULL){
 
      if(length(pars) != length(unlist(defaults))) stop("Length of 'pars' does not match
                                                number of parameters")
+     countPars <- 1
      for(i in 1:length(defaults)){
-       for(k in 1:length(defaults[[i]])) defaults[[i]][k] <- pars[i]
+       for(k in 1:length(defaults[[i]])) {
+         defaults[[i]][k] <- pars[countPars]
+       countPars <- countPars +1
+       }
 
      }
        pars <- defaults
